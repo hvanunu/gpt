@@ -34,7 +34,7 @@ if __name__ == '__main__':
         root_path=videos_root,
         annotationfile_path=annotation_file,
         num_segments=1,
-        frames_per_segment=9,
+        frames_per_segment=8,
         imagefile_template='img_{:05d}.jpg',
         transform=preprocess,
         test_mode=False
@@ -49,18 +49,18 @@ if __name__ == '__main__':
 
     dataloader = torch.utils.data.DataLoader(
         dataset=dataset,
-        batch_size=1,
-        shuffle=False,
+        batch_size=4,
+        shuffle=True,
         num_workers=1,
         pin_memory=True
     )
 
-    for epoch in range(10):
+    for epoch in range(4):
+        print("Epoch:", epoch)
         for video_batch, labels in dataloader:
+            plot_video(4, 2, denormalize(video_batch[0]), 10, 10, "Video Batch")
             print("\nVideo Batch Tensor Size:", video_batch.size())
             print("Batch Labels Size:", labels.size())
             break
-        break
-    print("Epoch:", epoch)
 
 
