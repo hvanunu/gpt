@@ -60,7 +60,6 @@ if __name__ == '__main__':
         for video_batch, labels in dataloader:
             plot_video(4, 2, denormalize(video_batch[0]), 10, 10, "Video Batch")
             print("\nVideo Batch Tensor Size:", video_batch.size())
-            print("Batch Labels Size:", labels.size())
             break
 
 
