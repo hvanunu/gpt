@@ -25,8 +25,8 @@ if __name__ == '__main__':
 
     preprocess = transforms.Compose([
         ImglistToTensor(),  # list of PIL images to (FRAMES x CHANNELS x HEIGHT x WIDTH) tensor
-        transforms.Resize(299),  # image batch, resize smaller edge to 299
-        transforms.CenterCrop(299),  # image batch, center crop to square 299x299
+        transforms.Resize(256),  # image batch, resize smaller edge to 299
+        transforms.CenterCrop(256),  # image batch, center crop to square 299x299
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
     ])
 
@@ -34,7 +34,7 @@ if __name__ == '__main__':
         root_path=videos_root,
         annotationfile_path=annotation_file,
         num_segments=1,
-        frames_per_segment=8,
+        frames_per_segment=9,
         imagefile_template='img_{:05d}.jpg',
         transform=preprocess,
         test_mode=False
@@ -49,17 +49,19 @@ if __name__ == '__main__':
 
     dataloader = torch.utils.data.DataLoader(
         dataset=dataset,
-        batch_size=4,
+        batch_size=1,
         shuffle=True,
-        num_workers=1,
-        pin_memory=True
+        num_workers=0,
+        pin_memory=False
     )
-
-    for epoch in range(4):
+    
+    for epoch in range(8):
         print("Epoch:", epoch)
-        for video_batch, labels in dataloader:
-            plot_video(4, 2, denormalize(video_batch[0]), 10, 10, "Video Batch")
+        for video_batch, _ in dataloader:
+            plot_video(3, 3, denormalize(video_batch[0]), 6, 6, "Video Batch")
             print("\nVideo Batch Tensor Size:", video_batch.size())
+            # video_batch: (BATCH_SIZE, FRAMES, CHANNELS, HEIGHT, WIDTH)
+            # train
             break
 
 
