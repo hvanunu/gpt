@@ -14,7 +14,6 @@ def conv2d(input_tensor, kernel, padding=0, stride=1):
     output_width = (input_width + 2 * padding - kernel_width) // stride + 1
 
     output_tensor = torch.zeros(output_height, output_width)
-
     padded_input = torch.nn.functional.pad(input_tensor, (padding, padding, padding, padding))
 
     for i in range(0, output_height):

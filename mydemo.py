@@ -58,10 +58,12 @@ if __name__ == '__main__':
     for epoch in range(8):
         print("Epoch:", epoch)
         for video_batch, _ in dataloader:
-            plot_video(3, 3, denormalize(video_batch[0]), 6, 6, "Video Batch")
+            #plot_video(3, 3, denormalize(video_batch[0]), 6, 6, "Video Batch")
             print("\nVideo Batch Tensor Size:", video_batch.size())
+
             # video_batch: (BATCH_SIZE, FRAMES, CHANNELS, HEIGHT, WIDTH)
             # train
             break
+
 
 
