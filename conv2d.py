@@ -1,6 +1,8 @@
 import torch
 import torch.nn as nn
 
+# manual convolution
+
 def conv2d(input_tensor, kernel, padding=0, stride=1):
     assert input_tensor.dim() == 2, "Input tensor should be 2D"
     assert kernel.dim() == 2, "Kernel should be 2D"

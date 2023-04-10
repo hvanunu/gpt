@@ -4,8 +4,6 @@ import torch.nn as nn
 from torch.nn import functional as F
 
 class Head(nn.Module):
-    """ one head of self-attention """
-
     def __init__(self, head_size, n_embd, block_size, dropout):
         super().__init__()
         self.key = nn.Linear(n_embd, head_size, bias=False)
@@ -19,20 +17,16 @@ class Head(nn.Module):
         k = self.key(x)   # (B,T,C)
         q = self.query(x) # (B,T,C)
 
-        # compute attention scores ("affinities")
         wei = q @ k.transpose(-2,-1) * C**-0.5 # (B, T, C) @ (B, C, T) -> (B, T, T)
         wei = wei.masked_fill(self.tril[:T, :T] == 0, float('-inf')) # (B, T, T)
         wei = F.softmax(wei, dim=-1) # (B, T, T)
         wei = self.dropout(wei)
         
-        # perform the weighted aggregation of the values
         v = self.value(x) # (B,T,C)
         out = wei @ v # (B, T, T) @ (B, T, C) -> (B, T, C)
         return out
 
 class MultiHeadAttention(nn.Module):
-    """ multiple heads of self-attention in parallel """
-
     def __init__(self, num_heads, head_size, n_embd, block_size, dropout):
         super().__init__()
         self.heads = nn.ModuleList([Head(head_size, n_embd=n_embd, block_size=block_size, dropout=dropout ) for _ in range(num_heads)])
@@ -45,8 +39,6 @@ class MultiHeadAttention(nn.Module):
         return out
 
 class FeedFoward(nn.Module):
-    """ a simple linear layer followed by a non-linearity """
-
     def __init__(self, n_embd, dropout):
         super().__init__()
         self.net = nn.Sequential(
@@ -60,8 +52,6 @@ class FeedFoward(nn.Module):
         return self.net(x)
 
 class Block(nn.Module):
-    """ Transformer block: communication followed by computation """
-
     def __init__(self, n_embd, n_head, block_size, dropout):
         # n_embd: embedding dimension, n_head: the number of heads we'd like
         super().__init__()
