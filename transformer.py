@@ -23,7 +23,7 @@ print('using device:', device)
 
 data = dataset.Dataset(batch_size, block_size)
 
-model = model.BigramLanguageModel(n_embd, data.vocab_size, block_size, n_head, n_layer, learning_rate)
+model = model.TLM(n_embd, data.vocab_size, block_size, n_head, n_layer, learning_rate)
 m = model.to(device)
 
 # print the number of parameters in the model

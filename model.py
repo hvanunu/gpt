@@ -6,7 +6,7 @@ from torch.nn import functional as F
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-class BigramLanguageModel(nn.Module):
+class TLM(nn.Module):
     def __init__(self, n_embd, vocab_size, block_size, n_head, n_layer, learning_rate):
         super().__init__()
         self.n_embd = n_embd
